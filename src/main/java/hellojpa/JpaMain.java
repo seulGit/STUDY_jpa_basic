@@ -33,11 +33,18 @@ public class JpaMain {
 //                System.out.println("member.name = " + member.getName());
 //            }
 
-            Member member = em.find(Member.class, 150L);
-            member.setName("ZZZZ"); // 수정 시엔 값 set만 하면 됨
+//            Member member = em.find(Member.class, 150L);
+//            member.setName("ZZZZ"); // 수정 시엔 값 set만 하면 됨
+
+            Member member = new Member(200L, "member200");
+            member.setId(20L);
+            member.setName("testName");
+
+            em.persist(member);
+
+            em.flush(); // persist -> flush (db전송) -> commit (db커밋) commit
 
             System.out.println("==============");
-
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
