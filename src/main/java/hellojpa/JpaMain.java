@@ -43,6 +43,12 @@ public class JpaMain {
 //            em.flush(); // persist -> flush (db전송) -> commit (db커밋) commit
 //
 //            System.out.println("==============");
+
+            Member member = new Member();
+            member.setUserName("C");
+
+            em.persist(member);
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
