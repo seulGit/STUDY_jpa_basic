@@ -37,8 +37,6 @@ public class JpaMain {
 //            member.setName("ZZZZ"); // 수정 시엔 값 set만 하면 됨
 
             Member member = new Member(200L, "member200");
-            member.setId(20L);
-            member.setName("testName");
 
             em.persist(member);
 
