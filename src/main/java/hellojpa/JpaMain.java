@@ -6,7 +6,7 @@ import java.util.List;
 
 public class JpaMain {
 
-    public static void main(String[] args) {
+     public static void main(String[] args) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
@@ -44,10 +44,24 @@ public class JpaMain {
 //
 //            System.out.println("==============");
 
-            Member member = new Member();
-            member.setUserName("C");
+            // 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team);
             em.persist(member);
+
+            // 영속성컨텍스트에서 디비로 넘겨 싱크를 맞추고 영속성컨텍스트는 초기화한다.
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam = " + findTeam.getName());
 
             tx.commit();
         } catch (Exception e) {
