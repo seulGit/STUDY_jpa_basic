@@ -17,6 +17,11 @@ public class Team {
     private List<Member> members = new ArrayList<>();
     // add 할 때 npe 안 뜨도록 관례로 많이 씀
 
+    public void addMember(Member member) {
+        member.setTeam(this);
+        members.add(member);
+    }
+
     public Long getId() {
         return id;
     }
@@ -40,4 +45,5 @@ public class Team {
     public void setMembers(List<Member> members) {
         this.members = members;
     }
+
 }

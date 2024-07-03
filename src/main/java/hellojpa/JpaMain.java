@@ -51,23 +51,32 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
             em.persist(member);
+
+            team.addMember(member);
+
+//            team.getMembers().add(member);
 
             // 영속성컨텍스트에서 디비로 넘겨 싱크를 맞추고 영속성컨텍스트는 초기화한다.
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-
-//            Team findTeam = findMember.getTeam();
-//            System.out.println("findTeam = " + findTeam.getName());
-
-            List<Member> members = findMember.getTeam().getMembers();
+            Team findTeam = em.find(Team.class, team.getId()); // flush, clear 안할 시 1차 캐시
+            List<Member> members = findTeam.getMembers();
 
             for (Member m : members) {
                 System.out.println("m = " + m.getUsername());
             }
+//            Member findMember = em.find(Member.class, member.getId());
+
+//            Team findTeam = findMember.getTeam();
+//            System.out.println("findTeam = " + findTeam.getName());
+
+//            List<Member> members = findMember.getTeam().getMembers();
+//
+//            for (Member m : members) {
+//                System.out.println("m = " + m.getUsername());
+//            }
 
             tx.commit();
         } catch (Exception e) {
