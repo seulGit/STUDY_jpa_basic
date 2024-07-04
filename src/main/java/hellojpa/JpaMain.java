@@ -15,68 +15,20 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 등록
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("HelloB");
 
-            // 수정
-//            Member findMember = em.find(Member.class, 1L);
-//            findMember.setName("HelloJPA");
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbb");
+            movie.setName("바람과함꼐사라지다");
+            movie.setPrice(10000);
 
-//            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-//                    .setFirstResult(1)
-//                    .setMaxResults(10)
-//                    .getResultList();
-//
-//            for (Member member : result) {
-//                System.out.println("member.name = " + member.getName());
-//            }
+            em.persist(movie);
 
-//            Member member = em.find(Member.class, 150L);
-//            member.setName("ZZZZ"); // 수정 시엔 값 set만 하면 됨
-
-//            Member member = new Member(200L, "member200");
-//
-//            em.persist(member);
-//
-//            em.flush(); // persist -> flush (db전송) -> commit (db커밋) commit
-//
-//            System.out.println("==============");
-
-            // 저장
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
-
-            team.addMember(member);
-
-//            team.getMembers().add(member);
-
-            // 영속성컨텍스트에서 디비로 넘겨 싱크를 맞추고 영속성컨텍스트는 초기화한다.
             em.flush();
             em.clear();
 
-            Team findTeam = em.find(Team.class, team.getId()); // flush, clear 안할 시 1차 캐시
-            List<Member> members = findTeam.getMembers();
-
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
-            }
-//            Member findMember = em.find(Member.class, member.getId());
-
-//            Team findTeam = findMember.getTeam();
-//            System.out.println("findTeam = " + findTeam.getName());
-
-//            List<Member> members = findMember.getTeam().getMembers();
-//
-//            for (Member m : members) {
-//                System.out.println("m = " + m.getUsername());
-//            }
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
 
             tx.commit();
         } catch (Exception e) {
