@@ -1,6 +1,9 @@
 package hellojpa;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Hibernate;
 
 import java.util.List;
@@ -17,45 +20,39 @@ public class JpaMain {
         tx.begin();
 
         try {
+//
+//            List<Member> result = em.createQuery(
+//                    "select m from Member m where m.username like '%kim%'",
+//                    Member.class
+//            ).getResultList();
+//
+//            for (Member member : result) {
+//                System.out.println("member = " + member);
+//            }
+
+            //Criteria 사용 준비
+//            CriteriaBuilder cb = em.getCriteriaBuilder();
+//            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+//
+//            Root<Member> m = query.from(Member.class);
+//
+//            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+//            List<Member> resultList = em.createQuery(cq)
+//                    .getResultList(); 
+            
             Member member = new Member();
             member.setUsername("member1");
-            member.setHomeAddress(new Address("city1", "street", "1000"));
-
-            member.getFavoriteFoods().add("chicken");
-            member.getFavoriteFoods().add("pig foot");
-            member.getFavoriteFoods().add("pizza");
-
-            member.getAddressHistory().add(new AddressEntity("old1", "street", "1000"));
-            member.getAddressHistory().add(new AddressEntity("old2", "street", "1000"));
-
             em.persist(member);
 
+            //flush ->commit, query
+
             em.flush();
-            em.clear();
+            
+            //dbconn.exevuteQuery("select * from member");
 
-            System.out.println("==== ====");
-            Member findMember = em.find(Member.class, member.getId());
-
-            /*List<Address> addressHistory = findMember.getAddressHistory();
-            for (Address address : addressHistory) {
-                System.out.println("address = " + address.getCity());
-            }
-
-            Set<String> favoriteFoods = findMember.getFavoriteFoods();
-            for (String favoriteFood : favoriteFoods) {
-                System.out.println("favoriteFood = " + favoriteFood);
-            }*/
-
-            //homecity -> new city
-//            Address a = findMember.getHomeAddress();
-//            findMember.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
-
-            //chicken -> bulgogi
-//            findMember.getFavoriteFoods().remove("chicken");
-//            findMember.getFavoriteFoods().add("bulgogi");
-//
-//            findMember.getAddressHistory().remove(new Address("old1", "street", "1000"));
-//            findMember.getAddressHistory().add(new Address("newCity1", "street", "1000"));
+//            for (Member member1 : resultList) {
+//                System.out.println("member1 = " + member1);
+//            }
 
             tx.commit();
         } catch (Exception e) {
